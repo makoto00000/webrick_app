@@ -1,0 +1,29 @@
+
+<%
+require 'net/http'
+require 'uri'
+require 'json'
+
+url = URI.parse('http://localhost:8000/api')
+req = Net::HTTP::Get.new(url.path)
+res = Net::HTTP.start(url.host, url.port) {|http|
+  http.request(req)
+}
+data = JSON.parse(res.body)
+%>
+
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>ジャンル一覧</h1>
+    <% data.each do |d| %>
+        <div><%= d['name'] %></div>
+    <% end %>
+
+    <a href="/">トップページ</a>
+  </body>
+</html>
